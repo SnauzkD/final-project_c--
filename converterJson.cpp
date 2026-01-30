@@ -7,6 +7,7 @@
 #include <fstream>
 #include <exception>
 #include <iostream>
+
 std::vector<std::string> converterJson::GetTextDocuments() {
     std::vector<std::string> textDocuments;
     try {
