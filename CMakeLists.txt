@@ -10,10 +10,17 @@ add_executable(FinalProject main.cpp
         converterJson.h
         InvertedIndex.cpp
         InvertedIndex.h
+        SearchServer.cpp
+        SearchServer.h
+        utilis.cpp
+        utilis.h
 )
 add_executable(FinalProject_tests
         test.cpp
+        SearchServer.cpp
+        converterJson.cpp
         InvertedIndex.cpp
+        utilis.cpp
 )
 
 target_link_libraries(FinalProject_tests gtest_main)

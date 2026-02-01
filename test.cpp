@@ -2,6 +2,7 @@
 #include "InvertedIndex.h"
 #include <vector>
 #include <string>
+#include "utilis.h"
 
 using namespace std;
 
@@ -80,4 +81,31 @@ TEST(TestCaseInvertedIndex, TestMissingWord) {
     };
 
     TestInvertedIndexFunctionality(docs, requests, expected);
+}
+TEST(UtilsTests, SplitIntoWordsBasic)
+{
+    std::string text = "milk water sugar";
+    std::vector<std::string> expected = {"milk", "water", "sugar"};
+
+    auto result = SplitIntoWords(text);
+
+    ASSERT_EQ(result, expected);
+}
+TEST(UtilsTests, SplitIntoWordsSingle)
+{
+    std::string text = "milk";
+    std::vector<std::string> expected = {"milk"};
+
+    auto result = SplitIntoWords(text);
+
+    ASSERT_EQ(result, expected);
+}
+TEST(UtilsTests, SplitIntoWordsEmpty)
+{
+    std::string text = "";
+    std::vector<std::string> expected = {};
+
+    auto result = SplitIntoWords(text);
+
+    ASSERT_EQ(result, expected);
 }
