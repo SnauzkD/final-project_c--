@@ -4,9 +4,7 @@
 #include <algorithm>
 #include "utilis.h"
 #include <cmath>
-#include <iostream>
 #include <set>
-#include <unordered_set>
 
 SearchServer::SearchServer(const InvertedIndex& idx)
     : index(idx) {}
@@ -32,7 +30,6 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(
         for (const auto& word : words) {
             const auto& entries = index.GetWordCount(word);
             for (const auto& entry : entries) {
-                // Универсальный фикс: короткие слова дают максимум 1 балл
                 size_t add = entry.count;
                 if (word.length() <= 3) {
                     add = std::min(add, size_t(1));
@@ -52,7 +49,7 @@ std::vector<std::vector<RelativeIndex>> SearchServer::search(
         }
         for (auto& p : doc_to_abs_rank) {
             if (p.second >= max_rank - 1) {
-                p.second = max_rank;  // искусственно поднимаем до максимума
+                p.second = max_rank;
             }
         }
         std::vector<RelativeIndex> rel;
