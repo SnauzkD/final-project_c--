@@ -11,14 +11,13 @@ struct Entry {
         return doc_id == other.doc_id && count == other.count;
     }
 };
-class InvertedIndex{
-public:
-    InvertedIndex() = default;
 
-    void UpdateDocumentBase(std::vector<std::string> input_docs);
-    std::vector<Entry> GetWordCount(const std::string& word);
+class InvertedIndex {
+public:
+    void UpdateDocumentBase(const std::vector<std::string>& input_docs);
+    std::vector<Entry> GetWordCount(const std::string& word) const;
 
 private:
-    std::vector<std::string> docs;
-    std::map<std::string,std::vector<Entry>> freq_dictionary;
+    std::vector<std::string> docs_;
+    std::map<std::string, std::vector<Entry>> freq_dictionary;
 };

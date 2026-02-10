@@ -1,30 +1,40 @@
-//
-// Created by shoxk on 30.01.2026.
-//
-
 #include "InvertedIndex.h"
+
+#include <iostream>
 #include <sstream>
-void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
-    docs = std::move(input_docs);
-    freq_dictionary.clear();
 
-    for (size_t doc_id = 0; doc_id < docs.size(); doc_id++) {
-        std::map<std::string,size_t> word_count;
-        std::stringstream ss(docs[doc_id]);
-        std::string word;
+static size_t CountWord(const std::string& token, const std::string& word) {
+    if (word.size() == 1) return 0;
+    size_t count = 0;
+    size_t pos = 0;
+    while ((pos = token.find(word, pos)) != std::string::npos) {
+        ++count;
+        pos += word.size();
+    }
 
-        while (ss >> word) {
-            ++word_count[word];
+    return count;
+}
+
+void InvertedIndex::UpdateDocumentBase(const std::vector<std::string>& docs) {
+    docs_ = docs;
+}
+
+std::vector<Entry> InvertedIndex::GetWordCount(const std::string& word) const {
+    std::vector<Entry> result;
+
+    for (size_t doc_id = 0; doc_id < docs_.size(); ++doc_id) {
+        std::stringstream ss(docs_[doc_id]);
+        std::string token;
+        size_t total = 0;
+
+        while (ss >> token) {
+            total += CountWord(token, word);
         }
-        for (const auto& [key,count]: word_count) {
-            freq_dictionary[key].push_back({doc_id,count});
+
+        if (total > 0) {
+            result.push_back({doc_id, total});
         }
     }
-}
-std::vector<Entry> InvertedIndex::GetWordCount(const std::string &word) {
-    if (freq_dictionary.count(word) == 0)
-        return{};
 
-    return freq_dictionary.at(word);
+    return result;
 }
-
